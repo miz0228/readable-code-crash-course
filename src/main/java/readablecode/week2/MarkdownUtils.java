@@ -17,38 +17,73 @@ public class MarkdownUtils {
 	
 	// TODO5 : remove the unnecessary variable after you read Readable code 9.1
 	
-	public static String createTables(List<String> l, int c) throws IllegalArgumentException {
-		if (l != null && !l.isEmpty() && c > 0) {
-			StringBuilder tmp = new StringBuilder();
-			for (String e : l) {
-				tmp.append("|");
-				tmp.append(e);
-			}
-			tmp.append("|");
-			tmp.append(System.lineSeparator());
-			for (String e : l) {
-				tmp.append("|");
-				for (int i = 0; i < e.length(); i++) {
-					tmp.append("-");
-				}
-			}
-			tmp.append("|");
-			tmp.append(System.lineSeparator());
-			for (int i = 0; i < c; i++) {
-				for (String e : l) {
-					tmp.append("|");
-					for (int j = 0; j < e.length(); j++) {
-						tmp.append(" ");
-					}
-				}
-				tmp.append("|");
-				tmp.append(System.lineSeparator());
-			}
-			String result = tmp.toString();
-			return result;
-		} else {
+	public static String createTables(List<String> listTexts, int c) throws IllegalArgumentException {
+		//7.7のネストを浅くするために関数の先頭に異常系となる条件を集めて即座にreturnする。
+		if(listTexts==null && listTexts.isEmpty() && c<=0) {
 			throw new IllegalArgumentException("");
 		}
+		StringBuilder table = new StringBuilder();
+		
+		//4.7から各コードを段落に分割しています
+		for (String text : listTexts) {
+			table.append("|");
+			table.append(text);
+		}
+		table.append("|");
+		table.append(System.lineSeparator());
+		
+		for (String text : listTexts) {
+			tmp.append("|");
+			for (int i = 0; i < e.length(); i++) {
+				tmp.append("-");
+			}
+		}
+		tmp.append("|");
+		tmp.append(System.lineSeparator());
+		
+		for (int i = 0; i < c; i++) {
+			for (String e : listTexts) {
+				tmp.append("|");
+				for (int j = 0; j < e.length(); j++) {
+					tmp.append(" ");
+				}
+			}
+			tmp.append("|");
+			tmp.append(System.lineSeparator());
+		}
+		//9.1のように役に立たない一時変数を削除して返す
+		return table.toString();
 	}
-
-}
+		
+//既存のコード
+//if (l != null && !l.isEmpty() && c > 0) {
+//	StringBuilder tmp = new StringBuilder();
+//	for (String e : l) {
+//		tmp.append("|");
+//		tmp.append(e);
+//	}
+//	tmp.append("|");
+//	tmp.append(System.lineSeparator());
+//	for (String e : l) {
+//		tmp.append("|");
+//		for (int i = 0; i < e.length(); i++) {
+//			tmp.append("-");
+//		}
+//	}
+//	tmp.append("|");
+//	tmp.append(System.lineSeparator());
+//	for (int i = 0; i < c; i++) {
+//		for (String e : l) {
+//			tmp.append("|");
+//			for (int j = 0; j < e.length(); j++) {
+//				tmp.append(" ");
+//			}
+//		}
+//		tmp.append("|");
+//		tmp.append(System.lineSeparator());
+//	}
+//	String result = tmp.toString();
+//	return result;
+//} else {
+//	throw new IllegalArgumentException("");
+//}
