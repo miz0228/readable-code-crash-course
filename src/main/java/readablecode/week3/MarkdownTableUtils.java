@@ -1,6 +1,7 @@
 package readablecode.week3;
 
 import java.util.List;
+import com.google.common.base.Strings;
 import java.util.Objects;
 
 public class MarkdownTableUtils {
@@ -15,7 +16,7 @@ public class MarkdownTableUtils {
 	// https://cyzennt.co.jp/blog/2021/05/19/java%EF%BC%9A%E5%BC%95%E6%95%B0%E3%81%A7%E6%B8%A1%E3%81%97%E3%81%9F%E5%8F%82%E7%85%A7%E5%9E%8B%E5%A4%89%E6%95%B0%E3%82%92%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E5%86%85%E3%81%A7%E5%A4%89%E6%9B%B4/
 
 	// TODO1 add @throws in javadoc
-	// e.g @throws xxxException if xxx is null or is less than XXX
+	// e.g @throws IllegalArgumentException if headerRowCaptions is null or is less than 0
 	/**
 	 * Returns the string of table which has empty rows as Markdown table syntax.
 	 * length of captions for separator cell and empty cell is same with their
@@ -38,6 +39,14 @@ public class MarkdownTableUtils {
 			throw new IllegalArgumentException("emptyRowCount must be greater than or equal to 1");
 		}
 
+		String headerRows = createHeaderRows(headerRowCaptions);
+		String emptyRows = createEmptyRows(headerRowCaptions, emptyRowCount);
+
+		return headerRows + emptyRows;
+	}
+	
+	//<やったこと>11.4からタスクを関数に分解する
+	private createHeaderRows(List<String> headerRowCaptions) {
 		StringBuilder markdownTable = new StringBuilder();
 		// create line for header row captions
 		for (String e : headerRowCaptions) {
@@ -50,36 +59,30 @@ public class MarkdownTableUtils {
 		// create line for header row separator
 		for (String e : headerRowCaptions) {
 			markdownTable.append("|");
-
-			// TODO2 : use com.google.common.base.Strings to replace the followings:13.4
-			// target code to replace with Strings begin
-			for (int i = 0; i < e.length(); i++) {
-				markdownTable.append("-");
-			}
-			// target code to replace with guava end
-			// how to find suitable method in framework
-			// 1.open {@link com.google.common.base.Strings} and check outline (control + o)
-			// and read javadoc
-			// 2.check junit TestCase on github
-
+			//<やったこと>com.google.common.base.Stringsのrepeat関数を活用
+			markdownTable.append(Strings.repeat("-", e.length()));
 		}
 		markdownTable.append("|");
 		markdownTable.append(System.lineSeparator());
-
+		
+		return markdownTable.toString();
+	}
+	
+	//<やったこと>11.4からタスクを関数に分解する
+	private createEmptyRows(List<String> headerRowCaptions, int emptyRowCount) {
 		// create lines for empty rows
+		StringBuilder markdownTable = new StringBuilder();
 		for (int i = 0; i < emptyRowCount; i++) {
 			for (String e : headerRowCaptions) {
 				markdownTable.append("|");
-				for (int j = 0; j < e.length(); j++) {
-					markdownTable.append(" ");
-				}
+				//<やったこと>com.google.common.base.Stringsのrepeat関数を活用
+				markdownTable.append(Strings.repeat(" ", e.length()));
 			}
 			markdownTable.append("|");
 			markdownTable.append(System.lineSeparator());
 		}
 
 		return markdownTable.toString();
-
 	}
 
 }
