@@ -4,6 +4,13 @@ import java.util.List;
 import com.google.common.base.Strings;
 import java.util.Objects;
 
+
+/**
+ * @author fujita_m
+ * @throws IllegalArgumentException if headerRowCaptions is null or is less than 0
+ */
+
+
 public class MarkdownTableUtils {
 	// TODO3 : find the code to be replace with the method used at TODO7
 	// refer OAOO principal
@@ -45,44 +52,37 @@ public class MarkdownTableUtils {
 		return headerRows + emptyRows;
 	}
 	
-	//<やったこと>11.4からタスクを関数に分解する
-	private createHeaderRows(List<String> headerRowCaptions) {
+	public static String createHeaderRows(List<String> headerRowCaptions) {
 		StringBuilder markdownTable = new StringBuilder();
 		// create line for header row captions
-		for (String e : headerRowCaptions) {
+		for (String text : headerRowCaptions) {
 			markdownTable.append("|");
-			markdownTable.append(e);
+			markdownTable.append(text);
 		}
 		markdownTable.append("|");
 		markdownTable.append(System.lineSeparator());
 
 		// create line for header row separator
-		for (String e : headerRowCaptions) {
-			markdownTable.append("|");
-			//<やったこと>com.google.common.base.Stringsのrepeat関数を活用
-			markdownTable.append(Strings.repeat("-", e.length()));
-		}
-		markdownTable.append("|");
-		markdownTable.append(System.lineSeparator());
-		
+		createMarkdownInside(headerRowCaptions, markdownTable, "-");
 		return markdownTable.toString();
 	}
 	
-	//<やったこと>11.4からタスクを関数に分解する
-	private createEmptyRows(List<String> headerRowCaptions, int emptyRowCount) {
+	public static String createEmptyRows(List<String> headerRowCaptions, int emptyRowCount) {
 		// create lines for empty rows
 		StringBuilder markdownTable = new StringBuilder();
 		for (int i = 0; i < emptyRowCount; i++) {
-			for (String e : headerRowCaptions) {
-				markdownTable.append("|");
-				//<やったこと>com.google.common.base.Stringsのrepeat関数を活用
-				markdownTable.append(Strings.repeat(" ", e.length()));
-			}
-			markdownTable.append("|");
-			markdownTable.append(System.lineSeparator());
+			createMarkdownInside(headerRowCaptions, markdownTable, " ");
 		}
-
 		return markdownTable.toString();
+	}
+
+	public static void createMarkdownInside(List<String> headerRowCaptions, StringBuilder markdownTable,String frame) {
+		for (String text : headerRowCaptions) {
+			markdownTable.append("|");
+			markdownTable.append(Strings.repeat(frame, text.length()));
+		}
+		markdownTable.append("|");
+		markdownTable.append(System.lineSeparator());
 	}
 
 }
