@@ -16,39 +16,49 @@ public class MarkdownUtils {
 	// TODO4 : re-name method as it is after you read Readable code 3.0, 3.9
 	
 	// TODO5 : remove the unnecessary variable after you read Readable code 9.1
-	
-	public static String createTables(List<String> l, int c) throws IllegalArgumentException {
-		if (l != null && !l.isEmpty() && c > 0) {
-			StringBuilder tmp = new StringBuilder();
-			for (String e : l) {
-				tmp.append("|");
-				tmp.append(e);
-			}
-			tmp.append("|");
-			tmp.append(System.lineSeparator());
-			for (String e : l) {
-				tmp.append("|");
-				for (int i = 0; i < e.length(); i++) {
-					tmp.append("-");
-				}
-			}
-			tmp.append("|");
-			tmp.append(System.lineSeparator());
-			for (int i = 0; i < c; i++) {
-				for (String e : l) {
-					tmp.append("|");
-					for (int j = 0; j < e.length(); j++) {
-						tmp.append(" ");
-					}
-				}
-				tmp.append("|");
-				tmp.append(System.lineSeparator());
-			}
-			String result = tmp.toString();
-			return result;
-		} else {
-			throw new IllegalArgumentException("");
-		}
-	}
+	private static final String PIPE = "|";
 
+	public static String createTables(List<String> listTexts, int emptyRowCount) throws IllegalArgumentException {
+		//7.7のネストを浅くするために関数の先頭に異常系となる条件を集めて即座にreturnする。
+		if (listTexts == null) {
+			throw new IllegalArgumentException("引数listTextがnullです");
+		}
+		if (listTexts.isEmpty()) {
+			throw new IllegalArgumentException("引数listTextが空です");
+		}
+		if (emptyRowCount <= 0) {
+			throw new IllegalArgumentException("引数emptyRowCountが0以下です");
+		}
+
+		StringBuilder table = new StringBuilder();
+
+		for (String text : listTexts) {
+			table.append(PIPE);
+			table.append(text);
+		}
+		table.append(PIPE);
+		table.append(System.lineSeparator());
+
+		for (String text : listTexts) {
+			table.append(PIPE);
+			for (int i = 0; i < text.length(); i++) {
+				table.append("-");
+			}
+		}
+		table.append(PIPE);
+		table.append(System.lineSeparator());
+
+		for (int i = 0; i < emptyRowCount; i++) {
+			for (String text : listTexts) {
+				table.append(PIPE);
+				for (int j = 0; j < text.length(); j++) {
+					table.append(" ");
+				}
+			}
+			table.append(PIPE);
+			table.append(System.lineSeparator());
+		}
+		return table.toString();
+	}
 }
+
